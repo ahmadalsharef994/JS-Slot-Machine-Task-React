@@ -42,7 +42,7 @@ body {
   padding: 10px 0 0 0;
 }
 
-.price {
+/* .price {
   font-family: hydrophilia-iced,sans-serif;
   font-weight: 400;
   font-style: normal;
@@ -58,24 +58,24 @@ body {
   font-weight: 500;
   font-size: 1.2em;
   border-radius: 5px;
-}
-
+} */
+/* 
 .priceInd {
   margin: 0;
   animation: premio .5s forwards linear;
-}
+} */
 
-.renewButton {
+/* .renewButton {
   margin: 20px 0 0 0;
   padding: 20px;
   line-height: 0;
-}
+} */
 
-@keyframes premio {
+/* @keyframes premio {
   0% {transform: translateY(100px);}
   80% {transform: translateY(-5px);}
   100% {transform: translateY(0);}
-}
+} */
 
 .img {
   width: 100%; /* or any custom size */
@@ -169,8 +169,6 @@ body {
     padding-top: 100px;
 }
   
-
-
 @keyframes goaround {
 0% {transform: translateY(0);}
 100% {transform: translateY(-1000px);}
