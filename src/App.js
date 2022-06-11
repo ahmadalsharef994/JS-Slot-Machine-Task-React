@@ -6,9 +6,11 @@ import BAR2 from "./Reel/2xBAR.png" // relative path to image
 import SEVEN from "./Reel/7.png" // relative path to image 
 import CHERRY from "./Reel/Cherry.png" // relative path to image 
 
-const App = ({id, owned, close, expires}) => {
+const App = () => {
+    
     //final adjustments after spinning
-    const finalAdjustments = [120, 240]
+    // 120px as bottom adjustment will make center empty and fill top&bottom
+    const finalAdjustments = [120, 0]
 
     const [spin, setSpin] = useState(false)
 
@@ -19,7 +21,7 @@ const App = ({id, owned, close, expires}) => {
     const [ring3, setRing3] = useState()
 
     // default balance
-    const [balance, setBalance] = useState(1000)
+    const [balance, setBalance] = useState(0)
 
     // Reel Symbols. Each reel has 5 symbols
     const [reelSymbols, setReelSymbols] = useState([BAR3, BAR, BAR2, SEVEN, CHERRY])
@@ -28,9 +30,23 @@ const App = ({id, owned, close, expires}) => {
         win()
     }, [ring3])
 
+function spinRingReel(symbols, ring) {
+    if (ring === 100 || ring ===0) {
+        return symbols;
+    }
+    const    rotates = Math.round(ring/20)
+    
+    console.log(rotates, ring)
+    for (let i=0; i< rotates; i++) {
+        symbols.pop()
+        symbols.unshift(reelSymbols[4-i])
+    }
+    return symbols;
+}
 
 function reel1() {
         // to move up after spin (to adjust to particular slots (Top-Center-Bottom))
+
         const moveIndex = Math.round(Math.random() * finalAdjustments.length);
         const moveUp = finalAdjustments[moveIndex]
 
@@ -39,11 +55,12 @@ function reel1() {
         return (
             <>
             {reelSymbols.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
+                    <div key={symbol} className="ringEnd"><img src = {symbol} alt="symbol" /></div>
             )}
             </>
                 )
         } else if (spin && ring1 === undefined) {
+
         // while spinnig. Show SEVEN and CHERRY series
         return (
             <>
@@ -55,171 +72,55 @@ function reel1() {
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
             </>
                 )
-        } else if (ring1 >= 1 && ring1 <= 20 ){
-            // 1 rotate
+        } else {
             const temp = [...reelSymbols];
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            
+            spinRingReel(temp, ring1)
             return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring1 >= 20 && ring1 <= 40 ){
-            // 2 rotates
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring1 >= 40 && ring1 <= 60 ){
-            // 3 rotates
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            temp.unshift(reelSymbols[2])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring1 >= 60 && ring1 <= 80 ){
-            // 4 rotates
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            temp.unshift(reelSymbols[2])
-            temp.unshift(reelSymbols[1])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring1 >= 80 && ring1 <= 100 ){
-            // 5 rotates
-            const temp = [...reelSymbols];
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
+                < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
+                {temp.map((symbol) => 
+                        <div key={symbol} className="ringEnd"><img src = {symbol} alt="symbol" /></div>
+                )}
+                </div>
+                )
         }
-
     }
 
 function reel2() {
-
-        const moveIndex = Math.round(Math.random() * finalAdjustments.length);
-        const moveUp = finalAdjustments[moveIndex]
+    const moveIndex = Math.round(Math.random() * finalAdjustments.length);
+    const moveUp = finalAdjustments[moveIndex]
 
     if (!spin) {
-            
+        // default slots before any spinning
         return (
             <>
             {reelSymbols.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
+                    <div key={symbol} className="ringEnd"><img src = {symbol} alt="symbol" /></div>
             )}
             </>
                 )
         } else if (spin && ring2 === undefined) {
+
+        // while spinnig. Show SEVEN and CHERRY series
         return (
             <>
-                <div className="ringMoving"><img src = {BAR} alt="BAR" /></div>
+                <div className="ringMoving"><img src = {SEVEN} alt="SEVEN" /></div>
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
-                <div className="ringMoving"><img src = {BAR} alt="BAR" /></div>
+                <div className="ringMoving"><img src = {SEVEN} alt="SEVEN" /></div>
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
-                <div className="ringMoving"><img src = {BAR} alt="BAR" /></div>
+                <div className="ringMoving"><img src = {SEVEN} alt="SEVEN" /></div>
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
             </>
                 )
-        } else if (ring2 >= 1 && ring2 <= 20 ){
+        } else {
             const temp = [...reelSymbols];
-            temp.pop()
-            temp.unshift(reelSymbols[4])
+            spinRingReel(temp, ring2)
             return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring2 >= 20 && ring2 <= 40 ){
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring2 >= 40 && ring2 <= 60 ){
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            temp.unshift(reelSymbols[2])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring2 >= 60 && ring2 <= 80 ){
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            temp.unshift(reelSymbols[2])
-            temp.unshift(reelSymbols[1])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring2 >= 80 && ring2 <= 100 ){
-            const temp = [...reelSymbols];
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
+                < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
+                {temp.map((symbol) => 
+                        <div key={symbol} className="ringEnd"><img src = {symbol} alt="symbol" /></div>
+                )}
+                </div>
+                )
         }
         
     }
@@ -228,100 +129,46 @@ function reel3() {
 
     const moveIndex = Math.round(Math.random() * finalAdjustments.length);
     const moveUp = finalAdjustments[moveIndex]
-        
+
     if (!spin) {
-            
+        // default slots before any spinning
         return (
             <>
             {reelSymbols.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
+                    <div key={symbol} className="ringEnd"><img src = {symbol} alt="symbol" /></div>
             )}
             </>
                 )
         } else if (spin && ring3 === undefined) {
+
+        // while spinnig. Show SEVEN and CHERRY series
         return (
             <>
-                <div className="ringMoving"><img src = {BAR} alt="BAR" /></div>
+                <div className="ringMoving"><img src = {SEVEN} alt="SEVEN" /></div>
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
-                <div className="ringMoving"><img src = {BAR} alt="BAR" /></div>
+                <div className="ringMoving"><img src = {SEVEN} alt="SEVEN" /></div>
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
-                <div className="ringMoving"><img src = {BAR} alt="BAR" /></div>
+                <div className="ringMoving"><img src = {SEVEN} alt="SEVEN" /></div>
                 <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
             </>
                 )
-        } else if (ring3 >= 1 && ring3 <= 20 ){
+        } else {
             const temp = [...reelSymbols];
-            temp.pop()
-            temp.unshift(reelSymbols[4])
+            spinRingReel(temp, ring3)
             return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring3 >= 20 && ring3 <= 40 ){
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring3 >= 40 && ring3 <= 60 ){
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            temp.unshift(reelSymbols[2])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring3 >= 60 && ring3 <= 80 ){
-            const temp = [...reelSymbols];
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.pop()
-            temp.unshift(reelSymbols[4])
-            temp.unshift(reelSymbols[3])
-            temp.unshift(reelSymbols[2])
-            temp.unshift(reelSymbols[1])
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
-        } else if (ring3 >= 80 && ring3 <= 100 ){
-            const temp = [...reelSymbols];
-            return (
-            < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
-            {temp.map((symbol) => 
-                    <div className="ringEnd"><img src = {symbol} alt="symbol" /></div>
-            )}
-            </div>
-            )
+                < div style ={{ position: "relative", bottom:`${moveUp}px`}} >
+                {temp.map((symbol) => 
+                        <div key={symbol} className="ringEnd"><img src = {symbol} alt="symbol" /></div>
+                )}
+                </div>
+                )
         }
     }
+
 
 function win() {
     // Calculate results To be implemented
       var prize=0;
-
-
   }
 
  function rand() {
@@ -335,31 +182,42 @@ function win() {
 
 function play() {
     var cost = 1;
-    if (ring3 > 1 || !spin){
+    // if (ring3 > 1 || !spin){
     if (cost <= balance && cost >= 1){
     setSpin(true)
     setRing1()
     setRing2()
     setRing3()
     setBalance(balance - cost)
-    setTimeout(function(){
-   rand()
-    }, 2000)
-
+    setTimeout(function(){rand()}, 2000)
+    
 }
 
-}
+// }
 }
 
 
 const getBalanceInput = (event)=>{
+    
     setBalance(event.target.value)
 };
 
+const randomizeArea = (even) => {
+    setReelSymbols(reelSymbols
+        .map(value => ({ value, sort: Math.random() }))
+        .sort((a, b) => a.sort - b.sort)
+        .map(({ value }) => value))
+}
+
 
     return (
-        <div className="fullSlot">
-        <h1 className="casinoName">JS Test Task Source</h1>
+        <div className="debugArea">
+        <h1 className="projectTitle">JS Test Task Source</h1>
+        <div className="slotFoot">
+        <button className="spinButton" onClick={() => randomizeArea()}>Random</button>
+        </div>
+        {/* <button className="spinButton" onClick={() => play()}>Spin</button> */}
+
         <div className="slot">
         <div className="reel">
         {reel1()}
@@ -375,8 +233,8 @@ const getBalanceInput = (event)=>{
         <div className="slotFoot">
         <button className="spinButton" onClick={() => play()}>Spin</button>
         </div>
-        <h1>{"Set Starting Balance: "} <input  type="text" pattern="[0-9]*" onChange={getBalanceInput} /></h1>
-
+        <h1>{"Set Starting Balance: "}
+        <input  type="number"  onChange={getBalanceInput} integers-only/></h1>
         <h1>{"Available cash: "+ balance}</h1>
         </div>
         

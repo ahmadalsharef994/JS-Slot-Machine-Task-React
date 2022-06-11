@@ -12,11 +12,9 @@ body {
   box-sizing: content-box;
 }
 
-
 @import url("https://use.typekit.net/yjs2lsy.css");
 
-
-.fullSlot {
+.debugArea {
   z-index: 100;
   position: absolute;
   display: flex;
@@ -31,7 +29,15 @@ body {
   background-color: #1f2b5e;
 }
 
-.casinoName {
+.slotFoot {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.projectTitle {
   font-family: fino-sans,sans-serif;
   font-weight: 600;
   font-style: normal;
@@ -41,41 +47,6 @@ body {
   width: 100%;
   padding: 10px 0 0 0;
 }
-
-/* .price {
-  font-family: hydrophilia-iced,sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  color: white;
-  background-color: rgb(10, 22, 39);
-  padding: 10px 0 10px 0;
-  margin: 10px 0 10px 0;
-  text-align: center;
-  border: solid 2px #ffd900;
-  width: 97%;
-  height: 50px;
-  overflow: hidden;
-  font-weight: 500;
-  font-size: 1.2em;
-  border-radius: 5px;
-} */
-/* 
-.priceInd {
-  margin: 0;
-  animation: premio .5s forwards linear;
-} */
-
-/* .renewButton {
-  margin: 20px 0 0 0;
-  padding: 20px;
-  line-height: 0;
-} */
-
-/* @keyframes premio {
-  0% {transform: translateY(100px);}
-  80% {transform: translateY(-5px);}
-  100% {transform: translateY(0);}
-} */
 
 .img {
   width: 100%; /* or any custom size */
@@ -89,26 +60,16 @@ body {
   display: flex;
   flex-direction: reel;
   width: 400;
-  height: 560px;
+  height: 480px;
+  top: 50px;
 }
 
-
-/* .betInput {
-  font-family: hydrophilia-iced,sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  text-align: center;
-  background-size: 20px;
-  border: none;
-  border-radius: 2px;
-  font-size: 1.2em;
-  margin: 20px;
-  height: 40px;
-  width: 100%;
-  margin: 0 5px 0 0;
-  flex: 1 1 auto;
-  text-align: center;
-} */
+input[type=number] {
+  border: 2px solid red;
+  border-radius: 4px;
+  height: 50%;
+  width: 10%;
+}
 
 .spinButton {
   cursor: pointer;
@@ -125,21 +86,6 @@ body {
   border: none;
   border-radius: 2px;
 }
-
-/* .buyMoreButton {
-  cursor: pointer;
-  font-family: hydrophilia-iced,sans-serif;
-  font-weight: 400;
-  font-style: normal;
-  text-align: center;
-  font-size: 1em;
-  width: calc(100% - 20px);
-  height: 30px;
-  margin-bottom: 10px;
-  background-color: #ffd900;
-  border: none;
-  border-radius: 2px;; 
-} */
 
 .reel {
   flex: 1 0 auto;
@@ -158,13 +104,12 @@ body {
   animation: goaround 0.2s linear infinite;
 }
 
-
 .ringEnd {
     text-align: center;
     font-size: 4em;
     animation: stop .5s ease-out forwards;
     position: relative;
-    height: 121px;
+    height: 100px;
     left: 0;
     padding-top: 100px;
 }
