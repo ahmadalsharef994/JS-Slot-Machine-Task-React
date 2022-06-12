@@ -13,10 +13,11 @@ const App = () => {
     const finalAdjustments = [120, 0]
 
     const [spin, setSpin] = useState(false)
+    const [balance, setBalance] = useState(0)
 
-    const [reelResults, setReelResults] = useState([])
 
-    const [prizee, setPrizee] = useState([])
+    const [prize, setPrize] = useState(0)
+
     // ring1 for reel1, ring2 for reel2, .....
     // ring is random number decides how many times the spin will rotate
     const [ring1, setRing1] = useState()
@@ -25,14 +26,11 @@ const App = () => {
 
     const [moveUp, setMoveUp] = useState([0,0,0])
 
-    // const [rings, setRings] = useState();
 
     // Reel Symbols. Each reel has 5 symbols
     const [reelSymbols, setReelSymbols] = useState([BAR3, BAR, BAR2, SEVEN, CHERRY])
-    // const [reelsSum, setReelsSum] = useState([])
     
-    var result = [];
-    // var moveUp = 0;
+    var spinResult = [];
 
     useEffect(() => {
         win()
@@ -58,7 +56,7 @@ function reel1() {
     
     // to move up after spin (to adjust to particular slots (Top-Center-Bottom))
     //moveUp = finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)]
-    result.push(temp, moveUp[0])
+    spinResult.push(temp, moveUp[0])
 
         if (!spin) {
         // default slots before any spinning
@@ -95,9 +93,8 @@ function reel1() {
 function reel2() {
     const temp = [...reelSymbols];
     spinSymbols(temp, ring2)
-    // const moveIndex = Math.floor(Math.random() * finalAdjustments.length);
-    //moveUp = finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)]
-    result.push(temp, moveUp[1])
+
+    spinResult.push(temp, moveUp[1])
     if (!spin) {
         // default slots before any spinning
         return (
@@ -139,7 +136,7 @@ function reel3() {
     spinSymbols(temp, ring3)
     // const moveIndex = Math.floor(Math.random() * finalAdjustments.length);
     // moveUp = finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)]
-    result.push(temp, moveUp[2])
+    spinResult.push(temp, moveUp[2])
 
     if (!spin) {
         // default slots before any spinning
@@ -176,23 +173,23 @@ function reel3() {
     }
 
 function win() {
-        // Calculate results
-          var prize=0;
-        result[0] = result[0].map((element) => {
+        // Calculate spinResults
+        var prizee=0;
+        spinResult[0] = spinResult[0].map((element) => {
             if (element === BAR) return "BAR"
             if (element === BAR2) return "BAR2"
             if (element === BAR3) return "BAR3"
             if (element === SEVEN) return "SEVEN"
             if (element === CHERRY) return "CHERRY"
         })
-        result[2] = result[2].map((element) => {
+        spinResult[2] = spinResult[2].map((element) => {
             if (element === BAR) return "BAR"
             if (element === BAR2) return "BAR2"
             if (element === BAR3) return "BAR3"
             if (element === SEVEN) return "SEVEN"
             if (element === CHERRY) return "CHERRY"
         })
-        result[4] = result[4].map((element) => {
+        spinResult[4] = spinResult[4].map((element) => {
             if (element === BAR) return "BAR"
             if (element === BAR2) return "BAR2"
             if (element === BAR3) return "BAR3"
@@ -202,105 +199,99 @@ function win() {
         
         var reel1c, reel2c, reel3c = [];
 
-        if (result[1] === 120) {
-                const top = result[0][1];
+        if (spinResult[1] === 120) {
+                const top = spinResult[0][1];
                 const center = 0;
-                const bottom = result[0][2]
+                const bottom = spinResult[0][2]
                 reel1c = [top, center, bottom]
             }
             else {
-                const top = result[0][0]
-                const center = result[0][1]
-                const bottom = result[0][2]
+                const top = spinResult[0][0]
+                const center = spinResult[0][1]
+                const bottom = spinResult[0][2]
                 reel1c = [top, center, bottom]
             } 
-        if (result[3] === 120) {
-                const top = result[2][1];
+        if (spinResult[3] === 120) {
+                const top = spinResult[2][1];
                 const center = 0;
-                const bottom = result[2][2]
+                const bottom = spinResult[2][2]
                 reel2c = [top, center, bottom]
             }
             else {
-                const top = result[2][0]
-                const center = result[2][1]
-                const bottom = result[2][2]
+                const top = spinResult[2][0]
+                const center = spinResult[2][1]
+                const bottom = spinResult[2][2]
                 reel2c = [top, center, bottom]
             }
-        if (result[5] === 120) {
-                const top = result[4][1];
+        if (spinResult[5] === 120) {
+                const top = spinResult[4][1];
                 const center = 0;
-                const bottom = result[4][2]
+                const bottom = spinResult[4][2]
                 reel3c = [top, center, bottom]
             }
             else {
-                const top = result[4][0]
-                const center = result[4][1]
-                const bottom = result[4][2]
+                const top = spinResult[4][0]
+                const center = spinResult[4][1]
+                const bottom = spinResult[4][2]
                 reel3c = [top, center, bottom]
             }
 
-        console.log(reel1c, reel2c, reel3c)
-        // setTimeout(setReelResults([...reel1c,...reel2c,...reel3c]), 500)
-        // console.log(reelResults)
 
         if (reel1c[0] === reel2c[0] === reel3c[0] === "CHERRY") {
-            prize+=2000
+            prizee+=2000
         }
         if (reel1c[1] === reel2c[1] === reel3c[1] === "CHERRY") {
-            prize+=1000
+            prizee+=1000
         }
         if (reel1c[2] === reel2c[2] === reel3c[2] === "CHERRY") {
-            prize+=4000
+            prizee+=4000
         }
         for (let i=0; i<3; i++){
             if (reel1c[i] === reel2c[i] === reel3c[i] === "SEVEN") {
-                prize+=150
+                prizee+=150
             }
             if (reel1c[i] === reel2c[i] === reel3c[i] === "BAR3") {
-                prize+=50
+                prizee+=50
             }
             if (reel1c[i] === reel2c[i] === reel3c[i] === "BAR2") {
-                prize+=20
+                prizee+=20
             }
             if (reel1c[i] === reel2c[i] === reel3c[i] === "BAR") {
-                prize+=10
+                prizee+=10
             }
             if (reel1c[i] && reel2c[i] && reel3c[i]) {
                 const combination = [reel1c[i], reel2c[i], reel3c[i]]
                 if (!combination.includes("CHERRY") && !combination.includes("SEVEN")) {
-                    prize+=5;
+                    prizee+=5;
                 }
                 if (!combination.includes("BAR") && !combination.includes("BAR2")  && !combination.includes("BAR3")) {
-                    prize+=75;
+                    prizee+=75;
                 }
             }
             
             
         }
-        // Any combination of CHERRY and 7 on any line 75
-        // Combination of any BAR symbols on any line 5
-        console.log(prize)
 
-        setPrizee(prize)
+        if (ring1 || ring2 || ring3) {
+            setPrize(prizee)
+        }
+        
 
 
 }
 
 function slotFoot() {
-    // default balance
-    const [balance, setBalance] = useState(0)
 
      function rand() {
           let ring1 = Math.floor(Math.random() * (100))
           let ring2 = Math.floor(Math.random() * (100))
           let ring3 = Math.floor(Math.random() * (100))
 
-          // ings(ring1, ring2, ring3)
-
           setRing1(ring1)
           setTimeout(function(){setRing2(ring2)}, 500)
           setTimeout(function(){setRing3(ring3)}, 1000)
-        setMoveUp([finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)], finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)], finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)]])
+
+          setMoveUp([finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)], finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)], finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)]])
         }
     
     function play() {
@@ -320,18 +311,37 @@ function slotFoot() {
         win()
         }    
     }
-    // to prevent multiple re-renders. This child component was created and encapsulated with its state were 
+
     const getBalanceInput = (event)=>{
         setBalance(event.target.value)
     };
 
+    function payTable() {
+        if (!prize) {
+            return (
+                <h2>No prize</h2>
+            )
+        }
+        else {
+            return (
+                <div style ={{display: "flex"}}>
+                <h1>Your prize is &nbsp; </h1>
+                <h1 className='prizeText'> {prize}</h1>
+                </div>
+            )
+        }
+        }
+    
+
     return (
         <div className="slotFoot">
         <button className="spinButton" onClick={() => play()}>Spin</button>
-        <h1>{"Set Starting Balance: "}
-        <input  type="number"  onChange={getBalanceInput}/></h1>
-        <h1>{"Available cash: "+ balance}</h1>
-        <h1>{"your prize is : "+ prizee}</h1>
+        <h2>{"Set Starting Balance: "} </h2>
+        <input  type="number"  onChange={getBalanceInput}/>
+        <h2>{"Available cash: "+ balance}</h2>
+        {payTable()}
+        {/* <h2 className='payTable'>{"your prize is : "+ prize}</h2> */}
+        
         </div>
     )
 }

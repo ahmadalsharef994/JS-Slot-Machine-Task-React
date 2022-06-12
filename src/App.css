@@ -1,8 +1,7 @@
-html,
 body {
   padding: 0;
   margin: 0;
-  background: #072333;
+  background: #062131;
   font-family: din-2014,sans-serif;
   font-weight: 800;
   font-style: normal;
@@ -26,7 +25,7 @@ body {
   right: 0;
   margin: auto;
   align-items: center;
-  background-color: #1f2b5e;
+  background-color: #313d72;
 }
 
 .slotFoot {
@@ -67,8 +66,8 @@ body {
 input[type=number] {
   border: 2px solid red;
   border-radius: 4px;
-  height: 50%;
-  width: 10%;
+  height: 30px;
+  width: 20%;
 }
 
 .spinButton {
@@ -123,3 +122,16 @@ input[type=number] {
   75% {transform: translateY(-80px)}
   100% {transform: translateY(-85px)}
   }
+
+
+
+.prizeText{
+    animation:blinkingText 0.5s normal;
+}
+@keyframes blinkingText{
+    0%{     color: red;    }
+    40%{    color: ornage; }
+    60%{    color: pink; }
+    90%{    color:transparent;  }
+    100%{   color: green;    }
+}
