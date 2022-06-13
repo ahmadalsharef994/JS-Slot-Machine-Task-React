@@ -60,7 +60,7 @@ body {
   display: flex;
   flex-direction: reel;
   width: 400;
-  height: 480px;
+  height: 400px;
 }
 
 input[type=number] {
@@ -90,6 +90,7 @@ input[type=number] {
   flex: 1 0 auto;
   overflow: hidden;
   border: solid 2px #ffd9009c;
+  position: relative;
   background: linear-gradient(0deg,  rgb(204, 203, 203)  0%, rgb(255, 255, 255)20%, rgb(255, 255, 255) 50%, rgb(255, 255, 255) 80%, rgb(204, 203, 203) 100%);
 }
 
@@ -109,6 +110,7 @@ input[type=number] {
     height: 100px;
     left: 0;
     padding-top: 100px;
+    bottom: 70px;
 }
   
 @keyframes goaround {

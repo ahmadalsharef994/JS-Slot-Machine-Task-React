@@ -32,6 +32,7 @@ const App = () => {
   
   // this to store the contents of each reel after spin for calculating the prize later
   var spinResult = [];
+  var [winLines, setWinLines] = useState([])
 
   useEffect(() => {
     win()
@@ -236,51 +237,66 @@ const App = () => {
       reel3c = [top, center, bottom]
     }
 
-
+    var winLiness = [];
     if (reel1c[0] === reel2c[0] === reel3c[0] === "CHERRY") {
       prizee+=2000
+      winLiness.push(0)
     }
     if (reel1c[1] === reel2c[1] === reel3c[1] === "CHERRY") {
       prizee+=1000
+      winLiness.push(1)
     }
     if (reel1c[2] === reel2c[2] === reel3c[2] === "CHERRY") {
       prizee+=4000
+      winLiness.push(2)
     }
     for (let i=0; i<3; i++){
       if (reel1c[i] === reel2c[i] === reel3c[i] === "SEVEN") {
         prizee+=150
+        winLiness.push(i)
       }
       if (reel1c[i] === reel2c[i] === reel3c[i] === "BAR3") {
         prizee+=50
+        winLiness.push(i)
       }
       if (reel1c[i] === reel2c[i] === reel3c[i] === "BAR2") {
         prizee+=20
+        winLiness.push(i)
       }
       if (reel1c[i] === reel2c[i] === reel3c[i] === "BAR") {
         prizee+=10
+        winLiness.push(i)
       }
       if (reel1c[i] && reel2c[i] && reel3c[i]) {
         const combination = [reel1c[i], reel2c[i], reel3c[i]]
         if (!combination.includes("CHERRY") && !combination.includes("SEVEN")) {
           prizee+=5;
+          winLiness.push(i)
         }
         if (!combination.includes("BAR") && !combination.includes("BAR2")  && !combination.includes("BAR3")) {
           prizee+=75;
+          winLiness.push(i)
         }
-      }
-            
-            
+      }      
     }
+
+    winLiness = [...new Set(winLiness)];
+    winLiness = winLiness.map((element) => {
+      if (element === 0) return "TOP"
+      if (element === 1) return "CENTER"
+      if (element === 2) return "BOTTOM"
+    })
 
     if (ring1 || ring2 || ring3) {
       setPrize(prizee)
+      setWinLines([...winLiness])
     }
-        
 
 
   }
 
-  // SlotFoot functional component contains play(), rand(), getBalanceInput(), and payTable() functionality
+  // SlotFoot functional component contains play(), rand(), getBalanceInput(), and payTable() functionality.
+  // these nested functions provide capabilities to create  private variables and make the code more encapsulated.
   function SlotFoot() {
 
     function rand() {
@@ -325,14 +341,23 @@ const App = () => {
       }
       else {
         return (
-          <div style ={{display: "flex"}}>
-            <h1>Your prize is &nbsp; </h1>
-            <h1 className='prizeText'> {prize}</h1>
+          <div>
+            <div style ={{display: "flex"}}>
+              <h2>Your prize is &nbsp; </h2>
+              <h2 className='prizeText'> {prize}</h2>
+            </div>
+            <div style ={{display: "flex"}}>
+              <h2> Winning Lines: &nbsp;</h2>
+              {
+                winLines.map((line, index)=>
+                  <h2 key= {index} className='prizeText'>{line} &nbsp; </h2>
+                )
+              }
+            </div>
           </div>
         )
       }
     }
-    
 
     return (
       <div className="slotHeadFoot">
@@ -419,6 +444,5 @@ const App = () => {
         
   )
 }
-
 
 export default App;
