@@ -23,6 +23,12 @@ Each reel have "5 symbols" and a "ring" and a "moveUp".
 
 "randomizeArea" will set a random order of symbols in reels other than the default order .
 
+## play() function:
+    Triggers Spin. Sets rings, moveUps, and balance.
+    The spinning lasts 2 seconds, after that reels start to sop one by one (starting from left) having 0.5
+    sec delay between landings.
+    Finally, it calls win() function to calculate prize and win-lines
+
 ## win() function:
 
     When a particular win happens the winning sum on pay-table must start blinking.

@@ -8,8 +8,8 @@ import CHERRY from "./Reel/Cherry.png" // relative path to image
 
 const App = () => {
     
-  //half rotation  adjustment after spinning
-  // 120px as bottom adjustment will make center empty and fill top&bottom
+  //half rotation  adjustment after spinning.
+  // 120px as bottom adjustment will make center empty and fill Top & Bottom. 0px means no adjustment.
   const finalAdjustments = [120, 0]
   // moveApp array decides (randomly) if each reel should rotate half or not
   const [moveUp, setMoveUp] = useState([0,0,0])
@@ -39,11 +39,15 @@ const App = () => {
   }, [ring3])
 
   function spinSymbols(symbols, ring) {
+    // ring == 0 (0 rotates) or ring == 100 (5 rotates) will return the same order of symbols array
     if (ring === 100 || ring ===0) {
       return symbols;
     }
+
+    // Otherwise, number of rotates is ring divided by 5
     const rotates = Math.round(ring/20)
     
+    // on each rotation: pop from rear and push last-element to front
     for (let i=0; i< rotates; i++) {
       symbols.pop()
       symbols.unshift(reelSymbols[4-i])
@@ -52,12 +56,11 @@ const App = () => {
   }
 
   function reel1() {
-
+    // create a temporal copy of symbols and spin it. 
     const temp = [...reelSymbols];
-    spinSymbols(temp, ring1)
+    spinSymbols(temp, ring1) // ring1=0 by default means no-spin
     
-    // to move up after spin (to adjust to particular slots (Top-Center-Bottom))
-    //moveUp = finalAdjustments[Math.floor(Math.random() * finalAdjustments.length)]
+    // push the result of spinning with the moveUp (half rotate) value
     spinResult.push(temp, moveUp[0])
 
     if (!spin) {
@@ -81,7 +84,7 @@ const App = () => {
           <div className="ringMoving"><img src = {CHERRY} alt="CHERRY" /></div>
         </>
       )
-    } else {
+    } else { // after spinning
       return (
         < div style ={{ position: "relative", bottom:`${moveUp[0]}px`}} >
           {temp.map((symbol) => 
@@ -174,8 +177,7 @@ const App = () => {
   }
 
   function win() {
-    // Calculate spinResults
-    var prizee=0;
+    // Calculate spinResults and replace base64-images with name of symbol
     spinResult[0] = spinResult[0].map((element) => {
       if (element === BAR) return "BAR"
       if (element === BAR2) return "BAR2"
@@ -197,21 +199,24 @@ const App = () => {
       if (element === SEVEN) return "SEVEN"
       if (element === CHERRY) return "CHERRY"
     })
-        
+    
+    // content of each reel as an array [TOP, CENTER, BOTTOM]
     var reel1c, reel2c, reel3c = [];
 
-    if (spinResult[1] === 120) {
+    // Reel 1
+    if (spinResult[1] === 120) { // if having moveUp (CENTER is empty)
       const top = spinResult[0][1];
       const center = 0;
       const bottom = spinResult[0][2]
       reel1c = [top, center, bottom]
     }
-    else {
+    else { // if not having moveUp (CENTER is filled)
       const top = spinResult[0][0]
       const center = spinResult[0][1]
       const bottom = spinResult[0][2]
       reel1c = [top, center, bottom]
     } 
+    // Reel 2
     if (spinResult[3] === 120) {
       const top = spinResult[2][1];
       const center = 0;
@@ -224,6 +229,7 @@ const App = () => {
       const bottom = spinResult[2][2]
       reel2c = [top, center, bottom]
     }
+    // Reel 3
     if (spinResult[5] === 120) {
       const top = spinResult[4][1];
       const center = 0;
@@ -237,6 +243,8 @@ const App = () => {
       reel3c = [top, center, bottom]
     }
 
+    // Find and set Prize and Win-Lines
+    var prizee=0;
     var winLiness = [];
     if (reel1c[0] === reel2c[0] === reel3c[0] === "CHERRY") {
       prizee+=2000
@@ -287,19 +295,19 @@ const App = () => {
       if (element === 2) return "BOTTOM"
     })
 
+    // update states (and re-render) only when there's a spin
     if (ring1 || ring2 || ring3) {
       setPrize(prizee)
       setWinLines([...winLiness])
     }
 
-
   }
 
-  // SlotFoot functional component contains play(), rand(), getBalanceInput(), and payTable() functionality.
-  // these nested functions provide capabilities to create  private variables and make the code more encapsulated.
+  // SlotFoot functional component contains play(), rand(), getBalanceInput(), and payTable() functionalities.
+  // JS nested functions allows to create private variables and make the code more encapsulated.
   function SlotFoot() {
 
-    function rand() {
+    function rand() { // set rings and moveUps randomly
       let ring1 = Math.floor(Math.random() * (100))
       let ring2 = Math.floor(Math.random() * (100))
       let ring3 = Math.floor(Math.random() * (100))
@@ -313,18 +321,16 @@ const App = () => {
     
     function play() {
       var cost = 1;
-      // if (ring3 > 1 || !spin){
-      if (cost <= balance && cost >= 1){
-        
-        setSpin(true)
+
+      if (cost <= balance && cost >= 1) {        
+        setSpin(true) // spin
+
         setRing1()
         setRing2()
         setRing3()
 
-        // setRings()
-
-        setBalance(balance - cost)
-        setTimeout(function(){rand()}, 2000)
+        setBalance(balance - cost) // new balance
+        setTimeout(function(){rand()}, 2000) // set rings and move up after 2 seconds having 0.5 seconds delay between reels
         win()
       }    
     }
@@ -372,6 +378,7 @@ const App = () => {
     )
   }
 
+  // random mode: reels land random positions.
   function randomizeArea() {
     setReelSymbols(reelSymbols
       .map(value => ({ value, sort: Math.random() }))
@@ -379,51 +386,11 @@ const App = () => {
       .map(({ value }) => value))
   }
 
-  //   const fixArea = (event) => {
-  //     const stringInput = prompt("Please enter a symbol and position. For example: \"CHERRY CENTER\"")
-  //     const arrayInput = stringInput.split(" ");
-  //     const symbolsArray=["BAR", "2xBAR", "3xBAR", "7", "CHERRY"]
-  //     const index = symbolsArray.indexOf(arrayInput[0])
-  //     const newSymbols = []
-  //     if(arrayInput[1] === "TOP") {
-  //       newSymbols[0]=symbolsArray[index]
-  //       newSymbols[1]=0
-  //       newSymbols[2] = symbolsArray[(index+1)%5]
-  //       newSymbols[3]=symbolsArray[(index+2)%5]
-  //       newSymbols[4]=symbolsArray[(index+3)%5]
-  //     }
-  //     if(arrayInput[1] === "CENTER") {
-  //       newSymbols[0]=symbolsArray[(index-1+5)%5]
-  //       newSymbols[1]=symbolsArray[index]
-  //       newSymbols[2] = symbolsArray[(index+1)%5]
-  //       newSymbols[3]=symbolsArray[(index+2)%5]
-  //       newSymbols[4]=symbolsArray[(index+3)%5]
-  //     }
-  //     if(arrayInput[1] === "BOTTOM") {
-  //       newSymbols[0]=symbolsArray[(index-1+5)%5]
-  //       newSymbols[1]=0
-  //       newSymbols[2] = symbolsArray[index]
-  //       newSymbols[3]=symbolsArray[(index+1)%5]
-  //       newSymbols[4]=symbolsArray[(index+2)%5]        
-  //     }
-    
-  //     newSymbols.forEach(element => {
-  //       if (element === "BAR") return BAR;
-  //       if (element === "2xBAR") return BAR2;
-  //       if (element === "3xBAR") return BAR3;
-  //       if (element === "7") return SEVEN;
-  //       if (element === "CHERRY") return CHERRY;
-  //     })
-  //     setReelSymbols([...newSymbols])
-  //     console.log(reelSymbols)
-  //   }
-  
   return (
     <div className="debugArea">
       <h1 className="projectTitle">JS Test Task Source</h1>
       <div className="slotHeadFoot">
         <button className="Button" onClick={() => randomizeArea()}>Random</button>
-        {/* <button className="Button" onClick={() => fixArea()}>Fixed</button> */}
       </div>
 
       <div className="slot">
