@@ -1,0 +1,139 @@
+body {
+  padding: 0;
+  margin: 0;
+  background: #062131;
+  font-family: din-2014,sans-serif;
+  font-weight: 800;
+  font-style: normal;
+}
+
+* {
+  box-sizing: content-box;
+}
+
+@import url("https://use.typekit.net/yjs2lsy.css");
+
+.debugArea {
+  z-index: 100;
+  /* position: absolute; */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 700px;
+  height: calc(100% - 60px);
+  left: 0;
+  right: 0;
+  margin: auto;
+  align-items: center;
+  background-color: #4f62ba;
+}
+
+.slotHeadFoot {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-direction: column;
+}
+
+.projectTitle {
+  font-family: fino-sans,sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  text-align: center;
+  font-size: 2em;
+  color: rgba(255, 255, 255, 0.781);
+  width: 100%;
+  padding: 10px 0 0 0;
+}
+
+.img {
+  width: 100%; /* or any custom size */
+  height: 100%; 
+  object-fit: contain;
+  height: 120px;
+  margin: 0 0 0 0;
+}
+
+.slot {
+  display: flex;
+  flex-direction: reel;
+  width: 400;
+  height: 400px;
+}
+
+input[type=number] {
+  border: 2px solid red;
+  border-radius: 4px;
+  height: 30px;
+  width: 20%;
+}
+
+.Button {
+  cursor: pointer;
+  font-family: hydrophilia-iced,sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  text-align: center;
+  font-size: 1.2em;
+  margin: 0 0 0 5px;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 40px;
+  background-color: #ffd900;
+  border: line-height;
+  border-radius: 2px;
+}
+
+.reel {
+  flex: 1 0 auto;
+  overflow: hidden;
+  border: solid 2px #ffd9009c;
+  position: relative;
+  background: linear-gradient(0deg,  rgb(204, 203, 203)  0%, rgb(255, 255, 255)20%, rgb(255, 255, 255) 50%, rgb(255, 255, 255) 80%, rgb(204, 203, 203) 100%);
+}
+
+.ringMoving {
+  height: 200px;
+  line-height: 200px;
+  text-align: center;
+  font-size: 4em;
+  animation: goaround 0.2s linear infinite;
+}
+
+.ringEnd {
+    text-align: center;
+    font-size: 4em;
+    animation: stop .5s ease-out forwards;
+    position: relative;
+    height: 100px;
+    left: 0;
+    padding-top: 100px;
+    bottom: 70px;
+}
+  
+@keyframes goaround {
+0% {transform: translateY(0);}
+100% {transform: translateY(-1000px);}
+}
+
+@keyframes stop {
+  0% {transform: translateY(0)}
+  50% {transform: translateY(-90px)}
+  75% {transform: translateY(-80px)}
+  100% {transform: translateY(-85px)}
+  }
+
+
+
+.prizeText{
+    animation:blinkingText 0.5s normal;
+}
+@keyframes blinkingText{
+    0%{     color: red;    }
+    40%{    color: ornage; }
+    60%{    color: pink; }
+    90%{    color:transparent;  }
+    100%{   color: green;    }
+}
