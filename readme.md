@@ -24,6 +24,6 @@ So, it will allow us locate visible symbols to calculate prize.
 
 win() function:
 
-
-
 When a particular win happens the winning sum on pay-table must start blinking.
+
+I avoided using arrow functions in many cases, since they create a new function every time a component is re-rendered. We can do this by simply defining a function with the function keyword instead of using an arrow.

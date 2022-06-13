@@ -25,10 +25,10 @@ body {
   right: 0;
   margin: auto;
   align-items: center;
-  background-color: #313d72;
+  background-color: #4f62ba;
 }
 
-.slotFoot {
+.slotHeadFoot {
   display: flex;
   width: 100%;
   align-items: center;
@@ -70,7 +70,7 @@ input[type=number] {
   width: 20%;
 }
 
-.spinButton {
+.Button {
   cursor: pointer;
   font-family: hydrophilia-iced,sans-serif;
   font-weight: 400;
@@ -82,7 +82,7 @@ input[type=number] {
   width: 100%;
   height: 40px;
   background-color: #ffd900;
-  border: none;
+  border: line-height;
   border-radius: 2px;
 }
 
