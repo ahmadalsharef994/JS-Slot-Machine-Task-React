@@ -15,7 +15,7 @@ body {
 
 .debugArea {
   z-index: 100;
-  /* position: absolute; */
+  position: absolute;
   display: flex;
   flex-direction: column;
   width: 100%;
