@@ -43,5 +43,13 @@ The game avoided using arrow functions in many cases, since they create a new fu
 
 Requirements not satisfied yet:
 
-1. Drawing a red line above win-lines on reel
-2. Setting initial symbols on reels MANUALLY
+1. Drawing a red line above win-lines on reel.
+2. Setting initial symbols on reels MANUALLY.
+
+### Scripts for running:
+# npm install
+install dependencies.
+# npm start
+Runs the app in the development mode.
+Open http://localhost:3000 to view it in the browser.
+# npm run build
