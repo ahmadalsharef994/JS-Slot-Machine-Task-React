@@ -1,4 +1,4 @@
-### JS Slot Machine Game using React.js and CSS
+## JS Slot Machine Game using React.js and CSS
 
 This game contains:
 
@@ -23,13 +23,13 @@ Each reel have "5 symbols" and a "ring" and a "moveUp".
 
 "randomizeArea" will set a random order of symbols in reels other than the default order .
 
-## play() function:
+### play() function:
     Triggers Spin. Sets rings, moveUps, and balance.
     The spinning lasts 2 seconds, after that reels start to sop one by one (starting from left) having 0.5
     sec delay between landings.
     Finally, it calls win() function to calculate prize and win-lines
 
-## win() function:
+### win() function:
 
     When a particular win happens the winning sum on pay-table must start blinking.
     win() function calculates the prize depending on spinResult array that holds the final order of symbols and moveUp values.
@@ -43,5 +43,13 @@ The game avoided using arrow functions in many cases, since they create a new fu
 
 Requirements not satisfied yet:
 
-1. Drawing a red line above win-lines on reel
-2. Setting initial symbols on reels MANUALLY
+1. Drawing a red line above win-lines on reel.
+2. Setting initial symbols on reels MANUALLY.
+
+### Scripts for running:
+#### npm install
+    install dependencies.
+#### npm start
+    Runs the app in the development mode.
+    Open http://localhost:3000 to view it in the browser.
+#### npm run build
